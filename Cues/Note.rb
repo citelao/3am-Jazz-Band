@@ -1,12 +1,12 @@
 require_relative '../Cue'
 
 class Note
-	def initialize(pitch, velocity, duration)
+	def initialize(pitch, velocity, duration, channel = 1)
 		@start = Cue.new(
-			[[0x90, pitch, velocity]],
+			[[0x90 + channel - 1, pitch, velocity]],
 			0)
 		@stop = Cue.new(
-			[[0x80, pitch, velocity]],
+			[[0x80 + channel - 1, pitch, velocity]],
 			duration)
 		@cues = [@start, @stop]
 	end

@@ -11,7 +11,7 @@ class ChordFactory
 		"b"  => 11
 	}
 
-	def ChordFactory.chordFromNoteNames(string, velocity, duration)
+	def ChordFactory.chordFromNoteNames(string, velocity, duration, channel = 1)
 		midiNotes = Array.new()
 
 		notes = string.split(" ")
@@ -39,6 +39,6 @@ class ChordFactory
 			midiNotes.push midiNote
 		end
 
-		Chord.new(midiNotes, velocity, duration)
+		Chord.new(midiNotes, velocity, duration, channel)
 	end
 end

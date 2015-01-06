@@ -4,7 +4,7 @@ require_relative '../Cues/Rest'
 require_relative '../Player'
 require_relative '../Cue'
 
-tempo = 120 #bpm
+tempo = 240 #bpm
 
 $quarter = 60.0 / tempo
 $eighth = $quarter / 2
