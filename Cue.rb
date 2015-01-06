@@ -1,5 +1,5 @@
 class Cue
-	def	intialize(commands, offset)
+	def	initialize(commands, offset)
 		@commands = commands
 		@offset = offset
 	end

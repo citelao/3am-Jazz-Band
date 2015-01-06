@@ -7,6 +7,7 @@ class Player
 
 	def run
 		accumulator = 0
+		nextCue = nil
 		last = Time.now
 		while true
 			current = Time.now
@@ -20,24 +21,16 @@ class Player
 					nextCue = @cues.shift
 				end
 			else
-				if(accumulator > nextCue.offset)
-					output.puts(nextCue.status, nextCue.db1, nextCue.db2)
+				while(accumulator > nextCue.offset)
+					nextCue.commands.map do |command|
+						@output.puts(command[0], command[1], command[2])
+					end
 
 					accumulator = 0
-				end
-			end
 
-			if(@cues.length > 0)
-				next
-
-				if(cue > $quarter)
-					puts cue
-					value = (turnon) ? 0x90 : 0x80
-					d.map do |note|
-						output.puts(value, note, 60)
+					if(@cues.length > 0)
+						nextCue = @cues.shift
 					end
-					turnon = !turnon
-					cue = 0
 				end
 			end
 
@@ -46,6 +39,10 @@ class Player
 	end
 
 	def add(cues)
-		@cues.push(cues)
+		@cues += cues
+	end
+
+	def cues
+		@cues
 	end
 end
