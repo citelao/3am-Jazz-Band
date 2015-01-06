@@ -1,6 +1,6 @@
 require 'unimidi'
-require_relative '../Note'
-require_relative '../Rest'
+require_relative '../Cues/Note'
+require_relative '../Cues/Rest'
 require_relative '../Player'
 
 tempo = 120 #bpm
