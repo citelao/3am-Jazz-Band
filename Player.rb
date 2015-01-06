@@ -1,36 +1,42 @@
 class Player
 
-	def initialize(output)
+	def initialize(output, instruments)
 		@output = output
 		@cues = Array.new()
+		@instruments = instruments
+		@accumulators = Array.new(instruments.length)
 	end
 
 	def run
-		accumulator = 0
-		nextCue = nil
+		@accumulators.map! do
+			0
+		end
+
 		last = Time.now
 		while true
 			current = Time.now
 
 			elapsed = current - last
 
-			accumulator += elapsed
+			@accumulators.map! do |e|
+				e + elapsed
+			end
 
-			if(nextCue == nil) 
-				if(@cues.length > 0)
-					nextCue = @cues.shift
+			@instruments.each_index do |i|
+				instrument = @instruments[i]
+
+				if instrument.next == nil
+					instrument.handle
 				end
-			else
-				while(accumulator > nextCue.offset)
-					nextCue.commands.map do |command|
+
+				while instrument.next != nil && @accumulators[i] > instrument.next.offset
+					instrument.next.commands.map do |command|
 						@output.puts(command[0], command[1], command[2])
 					end
 
-					accumulator = 0
+					@accumulators[i] = 0
 
-					if(@cues.length > 0)
-						nextCue = @cues.shift
-					end
+					instrument.handle
 				end
 			end
 

@@ -2,9 +2,10 @@ require 'unimidi'
 require_relative '../Factories/ChordFactory'
 require_relative '../Cues/Rest'
 require_relative '../Player'
+require_relative '../Instrument'
 require_relative '../Cue'
 
-tempo = 240 #bpm
+tempo = 120 #bpm
 
 $quarter = 60.0 / tempo
 $eighth = $quarter / 2
@@ -16,7 +17,9 @@ puts $quarter, $eighth, $triplet
 # Prompt the user to select an output
 output = UniMIDI::Output.gets
 
-player = Player.new(output)
+piano = Instrument.new()
+bass = Instrument.new()
+player = Player.new(output, [piano, bass])
 
 d = "d3 f#3 a3 c#4"
 g = "g3 b3 d4 f#4"
@@ -48,17 +51,39 @@ def second(chord)
 	].flatten
 end
 
-ChordFactory.chordFromNoteNames("d3 f#3 a3 c#4", 60, $quarter)
-
-player.add([Cue.new([[0xFF, 0, 0]], 0)]) # reset
+piano.add([Cue.new([[0xFF, 0, 0]], 0)]) # reset
 
 40.times do |i|
-	player.add(jazz(d))
-	player.add(jazz(g))
-	player.add(jazz(d))
-	player.add(first(a))
-	player.add(second(g))
-	player.add(jazz(d))
+	piano.add(jazz(d))
+	piano.add(jazz(g))
+	piano.add(jazz(d))
+	piano.add(first(a))
+	piano.add(second(g))
+	piano.add(jazz(d))
+
+	8.times do
+		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+	end
+
+	8.times do
+		bass.add(ChordFactory.chordFromNoteNames("g2", 70, $quarter, 2).cues)
+	end
+
+	8.times do
+		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+	end
+
+	4.times do
+		bass.add(ChordFactory.chordFromNoteNames("a2", 70, $quarter, 2).cues)
+	end
+
+	4.times do
+		bass.add(ChordFactory.chordFromNoteNames("g2", 70, $quarter, 2).cues)
+	end
+
+	8.times do
+		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+	end
 end
 
 # puts player.cues
