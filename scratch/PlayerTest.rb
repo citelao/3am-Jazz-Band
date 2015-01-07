@@ -21,9 +21,9 @@ piano = Instrument.new()
 bass = Instrument.new()
 player = Player.new(output, [piano, bass])
 
-d = "d3 f#3 a3 c#4"
-g = "g3 b3 d4 f#4"
-a = "a3 c#4 e4 g4"
+d = "f#3 a3 c#4 e4" # missing d3
+g = "b3 d4 f#4 a4" # missing g3
+a = "c#4 e4 g4 b4" # missing a3
 
 def jazz(chord)
 	[
@@ -62,7 +62,7 @@ piano.add([Cue.new([[0xFF, 0, 0]], 0)]) # reset
 	piano.add(jazz(d))
 
 	8.times do
-		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+		bass.add(ChordFactory.chordFromNoteNames("d3", 70, $quarter, 2).cues)
 	end
 
 	8.times do
@@ -70,7 +70,7 @@ piano.add([Cue.new([[0xFF, 0, 0]], 0)]) # reset
 	end
 
 	8.times do
-		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+		bass.add(ChordFactory.chordFromNoteNames("d3", 70, $quarter, 2).cues)
 	end
 
 	4.times do
@@ -82,7 +82,7 @@ piano.add([Cue.new([[0xFF, 0, 0]], 0)]) # reset
 	end
 
 	8.times do
-		bass.add(ChordFactory.chordFromNoteNames("d2", 70, $quarter, 2).cues)
+		bass.add(ChordFactory.chordFromNoteNames("d3", 70, $quarter, 2).cues)
 	end
 end
 
