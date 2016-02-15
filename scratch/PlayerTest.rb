@@ -13,7 +13,6 @@ $triplet = $quarter / 3
 
 puts $quarter, $eighth, $triplet
 
-
 # Prompt the user to select an output
 output = UniMIDI::Output.gets
 

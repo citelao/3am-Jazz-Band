@@ -1,4 +1,5 @@
 require_relative '../Cues/Chord'
+require_relative 'PitchFactory'
 
 class ChordFactory
 	@@ref = {
@@ -17,28 +18,23 @@ class ChordFactory
 		notes = string.split(" ")
 
 		notes.each do |note|
-			octave = Integer(note[-1])
-			pitchName = note[0]
-			pitchNumber = @@ref[pitchName]
-
-			mod = note[1...-1]
-			
-			if(!mod.empty?)
-				mod.split("").each do |letter|
-					if(letter == "b")
-						pitchNumber -= 1
-					end
-
-					if(letter == "#")
-						pitchNumber += 1
-					end
-				end
-			end
-
-			midiNote = pitchNumber + 12 * (octave + 1)
-			midiNotes.push midiNote
+			midiNotes.push PitchFactory.pitchFromNote(note).midi
 		end
 
 		Chord.new(midiNotes, velocity, duration, channel)
 	end
+
+	# Doh I need to know about keys TODO
+	# def ChordFactory.chordFromIntervals(key, numbers, duration, channel = 1)
+	# 	midiNotes = Array.new()
+
+	# 	base = PitchFactory.pitchFromNote(key).midi
+	# 	intervals = numbers.split(" ")
+
+	# 	intervals.each do |interval|
+	# 		midiNotes.push base + interval
+	# 	end
+
+	# 	Chord.new(midiNotes, velocity, duration, channel)
+	# end
 end
